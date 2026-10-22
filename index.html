@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NPTEL Ethical Hacking - Quick Quiz & Revision</title>
+  <meta name="description" content="Quick revision quiz website for NPTEL Ethical Hacking assignment questions and solutions (Weeks 1 to 12). Easy to practice, flashcards, and mock exams.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="dark">
+  <div class="app-layout">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-container">
+        <div class="header-brand">
+          <div class="brand-icon">🛡️</div>
+          <div>
+            <h1 class="brand-title">NPTEL Ethical Hacking</h1>
+            <p class="brand-subtitle">Assignment Question Bank · Weeks 1–12 (120 Questions)</p>
+          </div>
+        </div>
+
+        <div class="header-stats" id="headerStats">
+          <div class="stat-pill" title="Questions Answered">
+            <span class="stat-label">Progress</span>
+            <span class="stat-val" id="statProgress">0/120</span>
+          </div>
+          <div class="stat-pill" title="Overall Accuracy">
+            <span class="stat-label">Accuracy</span>
+            <span class="stat-val" id="statAccuracy">0%</span>
+          </div>
+          <div class="stat-pill" title="Starred Questions">
+            <span class="stat-label">Starred</span>
+            <span class="stat-val highlight" id="statStarred">⭐ 0</span>
+          </div>
+        </div>
+
+        <div class="header-actions">
+          <button class="icon-btn" id="soundToggle" title="Toggle Sound (Mute/Unmute)" aria-label="Toggle Sound">
+            🔊
+          </button>
+          <button class="icon-btn" id="themeToggle" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
+            ☀️
+          </button>
+          <button class="icon-btn" id="shortcutsBtn" title="Keyboard Shortcuts (?)" aria-label="Keyboard Shortcuts">
+            ⌨️
+          </button>
+          <button class="icon-btn danger" id="resetBtn" title="Reset Quiz Progress" aria-label="Reset Progress">
+            🔄
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs (Modes) -->
+      <nav class="mode-tabs">
+        <button class="tab-btn active" data-mode="practice">
+          <span class="tab-icon">🎯</span>
+          <span class="tab-text">Practice Quiz</span>
+        </button>
+        <button class="tab-btn" data-mode="flashcards">
+          <span class="tab-icon">⚡</span>
+          <span class="tab-text">Flashcards Mode</span>
+        </button>
+        <button class="tab-btn" data-mode="mock">
+          <span class="tab-icon">⏱️</span>
+          <span class="tab-text">Timed Mock Exam</span>
+        </button>
+        <button class="tab-btn" data-mode="review">
+          <span class="tab-icon">📑</span>
+          <span class="tab-text">All Questions List</span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-container">
+      
+      <!-- Filter Toolbar (For Practice, Flashcards, All Questions) -->
+      <section class="toolbar-section" id="filterToolbar">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Search keywords (e.g. RSA, Diffie-Hellman, OSPF, CIA, XSS, nmap...)" autocomplete="off">
+          <button class="clear-search-btn" id="clearSearch" title="Clear Search" style="display:none;">✕</button>
+        </div>
+
+        <!-- Week Selector Pills -->
+        <div class="week-pills-container">
+          <span class="pill-title">Week:</span>
+          <div class="week-pills" id="weekPills">
+            <button class="pill-btn active" data-week="all">All (120)</button>
+            <button class="pill-btn" data-week="1">W1</button>
+            <button class="pill-btn" data-week="2">W2</button>
+            <button class="pill-btn" data-week="3">W3</button>
+            <button class="pill-btn" data-week="4">W4</button>
+            <button class="pill-btn" data-week="5">W5</button>
+            <button class="pill-btn" data-week="6">W6</button>
+            <button class="pill-btn" data-week="7">W7</button>
+            <button class="pill-btn" data-week="8">W8</button>
+            <button class="pill-btn" data-week="9">W9</button>
+            <button class="pill-btn" data-week="10">W10</button>
+            <button class="pill-btn" data-week="11">W11</button>
+            <button class="pill-btn" data-week="12">W12</button>
+          </div>
+        </div>
+
+        <!-- Secondary Filters & Toggles -->
+        <div class="filter-row">
+          <div class="filter-group">
+            <label for="typeFilter">Type:</label>
+            <select id="typeFilter" class="select-input">
+              <option value="all">All Types</option>
+              <option value="mcq">MCQ (Single Choice)</option>
+              <option value="msq">MSQ (Multi-Select)</option>
+              <option value="numerical">Numerical / Fill-in</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="statusFilter">Status:</label>
+            <select id="statusFilter" class="select-input">
+              <option value="all">All Questions</option>
+              <option value="unattempted">Unattempted</option>
+              <option value="incorrect">Incorrect (Needs Revision)</option>
+              <option value="correct">Correct</option>
+              <option value="starred">Starred Only ⭐</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <button class="action-btn-sm" id="shuffleBtn" title="Randomize question order">
+              🔀 Shuffle
+            </button>
+          </div>
+
+          <div class="question-count-badge" id="filteredCount">
+            Showing 120 of 120 questions
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 1: PRACTICE QUIZ VIEW -->
+      <section id="practiceView" class="view-panel active">
+        <div class="quiz-card-wrapper" id="quizCardWrapper">
+          <!-- Rendered dynamically by JS -->
+        </div>
+
+        <!-- Question Navigation Bar -->
+        <div class="quiz-nav-bar">
+          <button class="btn btn-secondary" id="prevBtn" title="Previous Question (Left Arrow)">
+            ← Previous
+          </button>
+          
+          <div class="quick-jump-container">
+            <span id="jumpText">Question 1 of 120</span>
+            <input type="range" id="jumpSlider" min="1" max="120" value="1" class="slider-input">
+          </div>
+
+          <button class="btn btn-primary" id="nextBtn" title="Next Question (Right Arrow)">
+            Next →
+          </button>
+        </div>
+      </section>
+
+      <!-- VIEW 2: FLASHCARD VIEW -->
+      <section id="flashcardsView" class="view-panel">
+        <div class="flashcard-container">
+          <div class="flashcard" id="flashcard">
+            <div class="flashcard-inner">
+              <!-- Front Side -->
+              <div class="flashcard-front">
+                <div class="card-meta">
+                  <span class="badge" id="fcWeekBadge">Week 1 · Q1</span>
+                  <span class="badge" id="fcTypeBadge">MCQ</span>
+                  <button class="star-btn" id="fcStarBtn" title="Star question">⭐</button>
+                </div>
+                <div class="fc-prompt" id="fcQuestionText">
+                  Question text loading...
+                </div>
+                <div class="fc-options" id="fcOptionsPreview">
+                  <!-- options preview -->
+                </div>
+                <div class="fc-hint">
+                  <span>💡 Press <kbd>Space</kbd> or click to Reveal Answer</span>
+                </div>
+              </div>
+
+              <!-- Back Side -->
+              <div class="flashcard-back">
+                <div class="card-meta">
+                  <span class="badge success" id="fcAnsBadge">Answer</span>
+                  <button class="star-btn" id="fcStarBtnBack" title="Star question">⭐</button>
+                </div>
+                <div class="fc-answer-title">
+                  <strong>Correct Answer:</strong> <span id="fcCorrectAnswer">Option B</span>
+                </div>
+                <div class="fc-solution" id="fcSolutionText">
+                  Detailed explanation goes here...
+                </div>
+                <div class="fc-hint">
+                  <span>💡 Click or press <kbd>Space</kbd> to flip back</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Flashcard Controls -->
+          <div class="flashcard-actions">
+            <button class="btn btn-danger" id="fcReviewBtn" title="Mark for later review">
+              ❌ Needs Review
+            </button>
+            <button class="btn btn-secondary" id="fcFlipBtn">
+              🔄 Flip Card (Space)
+            </button>
+            <button class="btn btn-success" id="fcMasteredBtn" title="Mark as known/mastered">
+              ✅ Mastered
+            </button>
+          </div>
+
+          <div class="flashcard-nav">
+            <button class="btn btn-sm btn-secondary" id="fcPrevBtn">← Prev</button>
+            <span id="fcCounter">Card 1 / 120</span>
+            <button class="btn btn-sm btn-secondary" id="fcNextBtn">Next →</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- VIEW 3: TIMED MOCK EXAM VIEW -->
+      <section id="mockView" class="view-panel">
+        <!-- Mock Exam Setup Screen -->
+        <div class="mock-setup-card" id="mockSetupScreen">
+          <h2>⏱️ Timed Mock Exam Simulator</h2>
+          <p class="mock-desc">Test your real NPTEL proctored exam readiness with a timed environment, palette tracking, and a final grade report.</p>
+          
+          <div class="mock-config-grid">
+            <div class="config-item">
+              <label>Select Question Count:</label>
+              <div class="radio-pill-group" id="mockCountGroup">
+                <label class="radio-pill"><input type="radio" name="mockCount" value="10" checked> 10 Qs (Quick)</label>
+                <label class="radio-pill"><input type="radio" name="mockCount" value="25"> 25 Qs (Standard)</label>
+                <label class="radio-pill"><input type="radio" name="mockCount" value="50"> 50 Qs (Half Mock)</label>
+                <label class="radio-pill"><input type="radio" name="mockCount" value="120"> 120 Qs (Full Bank)</label>
+              </div>
+            </div>
+
+            <div class="config-item">
+              <label>Select Syllabus / Weeks:</label>
+              <select id="mockWeekScope" class="select-input">
+                <option value="all">Full Syllabus (Weeks 1 to 12)</option>
+                <option value="first-half">Weeks 1 – 6 (Networks & Cryptography)</option>
+                <option value="second-half">Weeks 7 – 12 (Authentication, Attacks & Tools)</option>
+                <option value="current">Currently Filtered Week</option>
+              </select>
+            </div>
+
+            <div class="config-item">
+              <label>Time Limit:</label>
+              <div class="radio-pill-group" id="mockTimeGroup">
+                <label class="radio-pill"><input type="radio" name="mockTime" value="10"> 10 mins</label>
+                <label class="radio-pill"><input type="radio" name="mockTime" value="30" checked> 30 mins</label>
+                <label class="radio-pill"><input type="radio" name="mockTime" value="60"> 60 mins</label>
+                <label class="radio-pill"><input type="radio" name="mockTime" value="0"> No Timer</label>
+              </div>
+            </div>
+          </div>
+
+          <button class="btn btn-primary btn-lg" id="startMockBtn">
+            🚀 Start Timed Mock Exam
+          </button>
+        </div>
+
+        <!-- Active Mock Exam Screen -->
+        <div class="mock-active-screen" id="mockActiveScreen" style="display:none;">
+          <div class="mock-header-bar">
+            <div class="mock-timer" id="mockTimer">
+              ⏳ <span>30:00</span>
+            </div>
+            <div class="mock-info">
+              <span id="mockProgressText">Question 1 of 25</span>
+            </div>
+            <button class="btn btn-danger btn-sm" id="submitMockEarlyBtn">
+              Submit Test & Finish
+            </button>
+          </div>
+
+          <div class="mock-exam-body">
+            <div class="mock-question-area" id="mockQuestionArea">
+              <!-- Rendered by JS -->
+            </div>
+
+            <!-- Question Palette Sidebar -->
+            <aside class="mock-palette-sidebar">
+              <h3>Question Palette</h3>
+              <div class="palette-legend">
+                <span class="legend-item"><span class="legend-dot answered"></span> Answered</span>
+                <span class="legend-item"><span class="legend-dot marked"></span> Flagged</span>
+                <span class="legend-item"><span class="legend-dot unvisited"></span> Unvisited</span>
+              </div>
+              <div class="palette-grid" id="mockPaletteGrid">
+                <!-- Palette buttons dynamically created -->
+              </div>
+            </aside>
+          </div>
+
+          <div class="mock-footer-nav">
+            <button class="btn btn-secondary" id="mockPrevBtn">← Previous</button>
+            <button class="btn btn-warning" id="mockFlagBtn">🚩 Flag for Review</button>
+            <button class="btn btn-primary" id="mockNextBtn">Next Question →</button>
+          </div>
+        </div>
+
+        <!-- Mock Exam Results Screen -->
+        <div class="mock-result-screen" id="mockResultScreen" style="display:none;">
+          <!-- Rendered dynamically by JS -->
+        </div>
+      </section>
+
+      <!-- VIEW 4: ALL QUESTIONS LIST (SEARCH & REVISION SHEET) -->
+      <section id="reviewView" class="view-panel">
+        <div class="review-header">
+          <h2>📚 Question Bank Master List</h2>
+          <p>Browse, filter, and review all 120 questions with answers and detailed IIT Kharagpur solutions expanded or on-demand.</p>
+          <div class="review-actions">
+            <button class="btn btn-sm btn-secondary" id="expandAllBtn">Expand All Explanations</button>
+            <button class="btn btn-sm btn-secondary" id="collapseAllBtn">Collapse All</button>
+          </div>
+        </div>
+
+        <div class="review-list" id="reviewList">
+          <!-- Rendered dynamically by JS -->
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>Prepared for NPTEL <strong>Ethical Hacking</strong> Course Revision · IIT Kharagpur Question Bank (Weeks 1 to 12 · 120 Questions)</p>
+      <p class="footer-sub">Ready to deploy to Vercel · Fast, offline-ready & mobile-optimized</p>
+    </footer>
+  </div>
+
+  <!-- Keyboard Shortcuts Modal -->
+  <div class="modal-overlay" id="shortcutsModal" style="display:none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>⌨️ Keyboard Shortcuts</h3>
+        <button class="modal-close" id="closeShortcutsModal">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="shortcut-row"><kbd>A</kbd> – <kbd>D</kbd> or <kbd>1</kbd> – <kbd>4</kbd> <span>Select options A through D</span></div>
+        <div class="shortcut-row"><kbd>Enter</kbd> <span>Check Answer / Next question</span></div>
+        <div class="shortcut-row"><kbd>→</kbd> <span>Next question</span></div>
+        <div class="shortcut-row"><kbd>←</kbd> <span>Previous question</span></div>
+        <div class="shortcut-row"><kbd>Space</kbd> <span>Flip flashcard / Toggle answer</span></div>
+        <div class="shortcut-row"><kbd>S</kbd> <span>Star / Bookmark question</span></div>
+        <div class="shortcut-row"><kbd>E</kbd> <span>Toggle detailed explanation</span></div>
+        <div class="shortcut-row"><kbd>?</kbd> <span>Open this help dialog</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Load Questions Data (synchronous, 0-config, works offline and locally without CORS errors) -->
+  <script src="data.js"></script>
+  <!-- Main Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
