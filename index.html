@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0f19">
   <title>NPTEL Ethical Hacking - Quick Quiz & Revision</title>
-  <meta name="description" content="Quick revision quiz website for NPTEL Ethical Hacking assignment questions and solutions (Weeks 1 to 12). Easy to practice, flashcards, and mock exams.">
+  <meta name="description" content="Quick revision quiz website for NPTEL Ethical Hacking assignment questions and solutions (Weeks 1 to 12). Easy to practice, flashcards, and mock exams on desktop and mobile.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -14,27 +15,12 @@
   <div class="app-layout">
     <!-- Header -->
     <header class="app-header">
-      <div class="header-container">
+      <div class="header-top-row">
         <div class="header-brand">
           <div class="brand-icon">🛡️</div>
-          <div>
+          <div class="brand-info">
             <h1 class="brand-title">NPTEL Ethical Hacking</h1>
-            <p class="brand-subtitle">Assignment Question Bank · Weeks 1–12 (120 Questions)</p>
-          </div>
-        </div>
-
-        <div class="header-stats" id="headerStats">
-          <div class="stat-pill" title="Questions Answered">
-            <span class="stat-label">Progress</span>
-            <span class="stat-val" id="statProgress">0/120</span>
-          </div>
-          <div class="stat-pill" title="Overall Accuracy">
-            <span class="stat-label">Accuracy</span>
-            <span class="stat-val" id="statAccuracy">0%</span>
-          </div>
-          <div class="stat-pill" title="Starred Questions">
-            <span class="stat-label">Starred</span>
-            <span class="stat-val highlight" id="statStarred">⭐ 0</span>
+            <p class="brand-subtitle">IIT Kharagpur · Weeks 1–12 (120 Qs)</p>
           </div>
         </div>
 
@@ -54,23 +40,41 @@
         </div>
       </div>
 
+      <!-- Header Stats Bar -->
+      <div class="header-stats-row">
+        <div class="header-stats" id="headerStats">
+          <div class="stat-pill" title="Questions Answered">
+            <span class="stat-label">Progress</span>
+            <span class="stat-val" id="statProgress">0/120</span>
+          </div>
+          <div class="stat-pill" title="Overall Accuracy">
+            <span class="stat-label">Accuracy</span>
+            <span class="stat-val" id="statAccuracy">0%</span>
+          </div>
+          <div class="stat-pill" title="Starred Questions">
+            <span class="stat-label">Starred</span>
+            <span class="stat-val highlight" id="statStarred">⭐ 0</span>
+          </div>
+        </div>
+      </div>
+
       <!-- Navigation Tabs (Modes) -->
-      <nav class="mode-tabs">
-        <button class="tab-btn active" data-mode="practice">
+      <nav class="mode-tabs" role="tablist" aria-label="Study modes">
+        <button class="tab-btn active" data-mode="practice" role="tab">
           <span class="tab-icon">🎯</span>
           <span class="tab-text">Practice Quiz</span>
         </button>
-        <button class="tab-btn" data-mode="flashcards">
+        <button class="tab-btn" data-mode="flashcards" role="tab">
           <span class="tab-icon">⚡</span>
-          <span class="tab-text">Flashcards Mode</span>
+          <span class="tab-text">Flashcards</span>
         </button>
-        <button class="tab-btn" data-mode="mock">
+        <button class="tab-btn" data-mode="mock" role="tab">
           <span class="tab-icon">⏱️</span>
-          <span class="tab-text">Timed Mock Exam</span>
+          <span class="tab-text">Mock Exam</span>
         </button>
-        <button class="tab-btn" data-mode="review">
+        <button class="tab-btn" data-mode="review" role="tab">
           <span class="tab-icon">📑</span>
-          <span class="tab-text">All Questions List</span>
+          <span class="tab-text">Master List</span>
         </button>
       </nav>
     </header>
@@ -82,11 +86,11 @@
       <section class="toolbar-section" id="filterToolbar">
         <div class="search-box">
           <span class="search-icon">🔍</span>
-          <input type="text" id="searchInput" placeholder="Search keywords (e.g. RSA, Diffie-Hellman, OSPF, CIA, XSS, nmap...)" autocomplete="off">
+          <input type="text" id="searchInput" placeholder="Search keywords (e.g. RSA, Diffie, OSPF, CIA, XSS, nmap...)" autocomplete="off">
           <button class="clear-search-btn" id="clearSearch" title="Clear Search" style="display:none;">✕</button>
         </div>
 
-        <!-- Week Selector Pills -->
+        <!-- Week Selector Pills (Horizontal Touch-scrollable) -->
         <div class="week-pills-container">
           <span class="pill-title">Week:</span>
           <div class="week-pills" id="weekPills">
@@ -112,9 +116,9 @@
             <label for="typeFilter">Type:</label>
             <select id="typeFilter" class="select-input">
               <option value="all">All Types</option>
-              <option value="mcq">MCQ (Single Choice)</option>
-              <option value="msq">MSQ (Multi-Select)</option>
-              <option value="numerical">Numerical / Fill-in</option>
+              <option value="mcq">MCQ (Single)</option>
+              <option value="msq">MSQ (Multi)</option>
+              <option value="numerical">Numerical / SA</option>
             </select>
           </div>
 
@@ -123,20 +127,20 @@
             <select id="statusFilter" class="select-input">
               <option value="all">All Questions</option>
               <option value="unattempted">Unattempted</option>
-              <option value="incorrect">Incorrect (Needs Revision)</option>
+              <option value="incorrect">Incorrect (Review)</option>
               <option value="correct">Correct</option>
-              <option value="starred">Starred Only ⭐</option>
+              <option value="starred">Starred ⭐</option>
             </select>
           </div>
 
-          <div class="filter-group">
+          <div class="filter-group shuffle-group">
             <button class="action-btn-sm" id="shuffleBtn" title="Randomize question order">
               🔀 Shuffle
             </button>
           </div>
 
           <div class="question-count-badge" id="filteredCount">
-            Showing 120 of 120 questions
+            120 questions
           </div>
         </div>
       </section>
@@ -149,16 +153,16 @@
 
         <!-- Question Navigation Bar -->
         <div class="quiz-nav-bar">
-          <button class="btn btn-secondary" id="prevBtn" title="Previous Question (Left Arrow)">
-            ← Previous
+          <button class="btn btn-secondary nav-btn" id="prevBtn" title="Previous Question (Left Arrow)">
+            ← Prev
           </button>
           
           <div class="quick-jump-container">
             <span id="jumpText">Question 1 of 120</span>
-            <input type="range" id="jumpSlider" min="1" max="120" value="1" class="slider-input">
+            <input type="range" id="jumpSlider" min="1" max="120" value="1" class="slider-input" aria-label="Jump to question">
           </div>
 
-          <button class="btn btn-primary" id="nextBtn" title="Next Question (Right Arrow)">
+          <button class="btn btn-primary nav-btn" id="nextBtn" title="Next Question (Right Arrow)">
             Next →
           </button>
         </div>
@@ -172,8 +176,10 @@
               <!-- Front Side -->
               <div class="flashcard-front">
                 <div class="card-meta">
-                  <span class="badge" id="fcWeekBadge">Week 1 · Q1</span>
-                  <span class="badge" id="fcTypeBadge">MCQ</span>
+                  <div class="meta-badges">
+                    <span class="badge" id="fcWeekBadge">Week 1 · Q1</span>
+                    <span class="badge" id="fcTypeBadge">MCQ</span>
+                  </div>
                   <button class="star-btn" id="fcStarBtn" title="Star question">⭐</button>
                 </div>
                 <div class="fc-prompt" id="fcQuestionText">
@@ -183,24 +189,24 @@
                   <!-- options preview -->
                 </div>
                 <div class="fc-hint">
-                  <span>💡 Press <kbd>Space</kbd> or click to Reveal Answer</span>
+                  <span>💡 Tap card or press <kbd>Space</kbd> to Reveal Answer</span>
                 </div>
               </div>
 
               <!-- Back Side -->
               <div class="flashcard-back">
                 <div class="card-meta">
-                  <span class="badge success" id="fcAnsBadge">Answer</span>
+                  <span class="badge success" id="fcAnsBadge">Answer & Solution</span>
                   <button class="star-btn" id="fcStarBtnBack" title="Star question">⭐</button>
                 </div>
                 <div class="fc-answer-title">
-                  <strong>Correct Answer:</strong> <span id="fcCorrectAnswer">Option B</span>
+                  <strong>Correct:</strong> <span id="fcCorrectAnswer">Option B</span>
                 </div>
                 <div class="fc-solution" id="fcSolutionText">
                   Detailed explanation goes here...
                 </div>
                 <div class="fc-hint">
-                  <span>💡 Click or press <kbd>Space</kbd> to flip back</span>
+                  <span>💡 Tap card or press <kbd>Space</kbd> to flip back</span>
                 </div>
               </div>
             </div>
@@ -208,13 +214,13 @@
 
           <!-- Flashcard Controls -->
           <div class="flashcard-actions">
-            <button class="btn btn-danger" id="fcReviewBtn" title="Mark for later review">
+            <button class="btn btn-danger fc-action-btn" id="fcReviewBtn" title="Mark for later review">
               ❌ Needs Review
             </button>
-            <button class="btn btn-secondary" id="fcFlipBtn">
-              🔄 Flip Card (Space)
+            <button class="btn btn-secondary fc-action-btn" id="fcFlipBtn">
+              🔄 Flip Card
             </button>
-            <button class="btn btn-success" id="fcMasteredBtn" title="Mark as known/mastered">
+            <button class="btn btn-success fc-action-btn" id="fcMasteredBtn" title="Mark as known/mastered">
               ✅ Mastered
             </button>
           </div>
@@ -232,26 +238,26 @@
         <!-- Mock Exam Setup Screen -->
         <div class="mock-setup-card" id="mockSetupScreen">
           <h2>⏱️ Timed Mock Exam Simulator</h2>
-          <p class="mock-desc">Test your real NPTEL proctored exam readiness with a timed environment, palette tracking, and a final grade report.</p>
+          <p class="mock-desc">Simulate the real NPTEL proctored exam conditions with a timed countdown, question palette, and full scorecard.</p>
           
           <div class="mock-config-grid">
             <div class="config-item">
               <label>Select Question Count:</label>
               <div class="radio-pill-group" id="mockCountGroup">
-                <label class="radio-pill"><input type="radio" name="mockCount" value="10" checked> 10 Qs (Quick)</label>
-                <label class="radio-pill"><input type="radio" name="mockCount" value="25"> 25 Qs (Standard)</label>
-                <label class="radio-pill"><input type="radio" name="mockCount" value="50"> 50 Qs (Half Mock)</label>
-                <label class="radio-pill"><input type="radio" name="mockCount" value="120"> 120 Qs (Full Bank)</label>
+                <label class="radio-pill"><input type="radio" name="mockCount" value="10" checked> 10 Qs</label>
+                <label class="radio-pill"><input type="radio" name="mockCount" value="25"> 25 Qs</label>
+                <label class="radio-pill"><input type="radio" name="mockCount" value="50"> 50 Qs</label>
+                <label class="radio-pill"><input type="radio" name="mockCount" value="120"> 120 Qs</label>
               </div>
             </div>
 
             <div class="config-item">
-              <label>Select Syllabus / Weeks:</label>
-              <select id="mockWeekScope" class="select-input">
+              <label>Select Syllabus / Scope:</label>
+              <select id="mockWeekScope" class="select-input full-width">
                 <option value="all">Full Syllabus (Weeks 1 to 12)</option>
                 <option value="first-half">Weeks 1 – 6 (Networks & Cryptography)</option>
                 <option value="second-half">Weeks 7 – 12 (Authentication, Attacks & Tools)</option>
-                <option value="current">Currently Filtered Week</option>
+                <option value="current">Currently Selected Week</option>
               </select>
             </div>
 
@@ -266,7 +272,7 @@
             </div>
           </div>
 
-          <button class="btn btn-primary btn-lg" id="startMockBtn">
+          <button class="btn btn-primary btn-lg full-mobile-width" id="startMockBtn">
             🚀 Start Timed Mock Exam
           </button>
         </div>
@@ -277,12 +283,14 @@
             <div class="mock-timer" id="mockTimer">
               ⏳ <span>30:00</span>
             </div>
-            <div class="mock-info">
-              <span id="mockProgressText">Question 1 of 25</span>
+            <div class="mock-header-controls">
+              <button class="btn btn-secondary btn-sm" id="togglePaletteBtn">
+                📊 Palette (<span id="mockPaletteCount">1-25</span>)
+              </button>
+              <button class="btn btn-danger btn-sm" id="submitMockEarlyBtn">
+                Submit Test
+              </button>
             </div>
-            <button class="btn btn-danger btn-sm" id="submitMockEarlyBtn">
-              Submit Test & Finish
-            </button>
           </div>
 
           <div class="mock-exam-body">
@@ -290,9 +298,12 @@
               <!-- Rendered by JS -->
             </div>
 
-            <!-- Question Palette Sidebar -->
-            <aside class="mock-palette-sidebar">
-              <h3>Question Palette</h3>
+            <!-- Question Palette Sidebar / Drawer on Mobile -->
+            <aside class="mock-palette-sidebar" id="mockPaletteSidebar">
+              <div class="palette-header">
+                <h3>Question Palette</h3>
+                <button class="palette-close-mobile" id="closePaletteMobileBtn">✕</button>
+              </div>
               <div class="palette-legend">
                 <span class="legend-item"><span class="legend-dot answered"></span> Answered</span>
                 <span class="legend-item"><span class="legend-dot marked"></span> Flagged</span>
@@ -305,9 +316,9 @@
           </div>
 
           <div class="mock-footer-nav">
-            <button class="btn btn-secondary" id="mockPrevBtn">← Previous</button>
-            <button class="btn btn-warning" id="mockFlagBtn">🚩 Flag for Review</button>
-            <button class="btn btn-primary" id="mockNextBtn">Next Question →</button>
+            <button class="btn btn-secondary" id="mockPrevBtn">← Prev</button>
+            <button class="btn btn-warning" id="mockFlagBtn">🚩 Flag</button>
+            <button class="btn btn-primary" id="mockNextBtn">Next →</button>
           </div>
         </div>
 
@@ -320,10 +331,12 @@
       <!-- VIEW 4: ALL QUESTIONS LIST (SEARCH & REVISION SHEET) -->
       <section id="reviewView" class="view-panel">
         <div class="review-header">
-          <h2>📚 Question Bank Master List</h2>
-          <p>Browse, filter, and review all 120 questions with answers and detailed IIT Kharagpur solutions expanded or on-demand.</p>
+          <div>
+            <h2>📚 Question Bank Master List</h2>
+            <p>Browse, filter, and review all 120 questions with verified solutions.</p>
+          </div>
           <div class="review-actions">
-            <button class="btn btn-sm btn-secondary" id="expandAllBtn">Expand All Explanations</button>
+            <button class="btn btn-sm btn-secondary" id="expandAllBtn">Expand All</button>
             <button class="btn btn-sm btn-secondary" id="collapseAllBtn">Collapse All</button>
           </div>
         </div>
@@ -337,8 +350,8 @@
 
     <!-- Footer -->
     <footer class="app-footer">
-      <p>Prepared for NPTEL <strong>Ethical Hacking</strong> Course Revision · IIT Kharagpur Question Bank (Weeks 1 to 12 · 120 Questions)</p>
-      <p class="footer-sub">Ready to deploy to Vercel · Fast, offline-ready & mobile-optimized</p>
+      <p>Prepared for NPTEL <strong>Ethical Hacking</strong> Course Revision · IIT Kharagpur (Weeks 1 to 12 · 120 Questions)</p>
+      <p class="footer-sub">Mobile Optimized & Ready for Vercel</p>
     </footer>
   </div>
 

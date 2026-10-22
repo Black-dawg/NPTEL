@@ -699,6 +699,9 @@
     document.getElementById('mockActiveScreen').style.display = 'flex';
     document.getElementById('mockResultScreen').style.display = 'none';
 
+    const pCountEl = document.getElementById('mockPaletteCount');
+    if (pCountEl) pCountEl.textContent = `1-${state.mock.questions.length}`;
+
     renderMockCurrentQuestion();
     renderMockPalette();
   }
@@ -862,6 +865,9 @@
       btn.addEventListener('click', () => {
         state.mock.currentIndex = parseInt(btn.getAttribute('data-mock-idx'), 10);
         renderMockCurrentQuestion();
+        if (window.innerWidth <= 768) {
+          document.getElementById('mockPaletteSidebar')?.classList.remove('mobile-open');
+        }
       });
     });
   }
@@ -1322,6 +1328,7 @@
       }
       renderMockCurrentQuestion();
     });
+
     document.getElementById('submitMockEarlyBtn')?.addEventListener('click', () => {
       const answeredCount = Object.keys(state.mock.userAnswers).length;
       const total = state.mock.questions.length;
@@ -1329,6 +1336,35 @@
         finishMockExam();
       }
     });
+
+    // Mobile Mock Exam Palette Toggle
+    const paletteSidebar = document.getElementById('mockPaletteSidebar');
+    document.getElementById('togglePaletteBtn')?.addEventListener('click', () => {
+      paletteSidebar?.classList.toggle('mobile-open');
+    });
+    document.getElementById('closePaletteMobileBtn')?.addEventListener('click', () => {
+      paletteSidebar?.classList.remove('mobile-open');
+    });
+
+    // Touch Swipe gestures for Flashcards Mode
+    let touchStartX = 0;
+    const flashcardEl = document.getElementById('flashcard');
+    flashcardEl?.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    flashcardEl?.addEventListener('touchend', (e) => {
+      const touchEndX = e.changedTouches[0].screenX;
+      const diff = touchEndX - touchStartX;
+      if (Math.abs(diff) > 50) {
+        if (diff < 0) {
+          nextQuestion(); // swipe left -> next card
+        } else {
+          prevQuestion(); // swipe right -> previous card
+        }
+      }
+    }, { passive: true });
+
 
     // Expand / Collapse All in Review List
     document.getElementById('expandAllBtn')?.addEventListener('click', () => {
